@@ -22,5 +22,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ConfigurationSubstitutor" Version="1.5.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="video\" />
+  </ItemGroup>
 
 </Project>
