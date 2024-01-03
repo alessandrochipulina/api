@@ -1,0 +1,12 @@
+﻿
+CREATE TRIGGER [T_ID_Carrera]
+ON [dbo].[CARRERA]
+INSTEAD OF DELETE
+AS
+BEGIN
+	SET NOCOUNT ON
+	UPDATE dbo.CARRERA SET estado = 1
+	FROM dbo.CARRERA c
+	INNER JOIN deleted i 
+	ON c.id = i.id
+END

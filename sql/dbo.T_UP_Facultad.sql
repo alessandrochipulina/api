@@ -1,0 +1,14 @@
+﻿USE UNIVERSIDAD
+GO
+
+CREATE TRIGGER [T_UP_Facultad]
+	ON [dbo].[FACULTAD]
+	FOR UPDATE
+	AS
+	BEGIN
+		SET NOCOUNT ON
+		UPDATE dbo.FACULTAD SET actualizado_tmstp = GETDATE()
+		FROM dbo.FACULTAD f
+		INNER JOIN inserted i 
+		ON f.id = i.id
+	END
