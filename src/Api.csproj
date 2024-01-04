@@ -6,6 +6,12 @@
     <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="video\**" />
+    <Content Remove="video\**" />
+    <EmbeddedResource Remove="video\**" />
+    <None Remove="video\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="RestSharp" Version="110.2.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="Dapper" Version="2.0.123" />
@@ -21,9 +27,6 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ConfigurationSubstitutor" Version="1.5.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="video\" />
   </ItemGroup>
 
 </Project>

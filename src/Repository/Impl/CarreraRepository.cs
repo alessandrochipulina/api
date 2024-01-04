@@ -9,6 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Common.Attributes;
+using Dapper;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Linq;
 
 namespace Api.Repository.Impl
 {
@@ -44,9 +47,8 @@ namespace Api.Repository.Impl
 
         public List<CarreraResult> Buscar( string texto )
         {
-            var parameters = new List<SqlParameter>();
-            var p1 = new SqlParameter("texto", texto);
-            parameters.Add(p1);
+            var parameters = new DynamicParameters();
+            parameters.Add("@texto", texto);
 
             try
             {
@@ -61,89 +63,104 @@ namespace Api.Repository.Impl
 
         public SimpleResult ActualizarNombre(string nombre, string codigo)
         {
-            SimpleResult mensaje;
+            List<SimpleResult> m;
+            SimpleResult mensaje = new()
+            {
+                result = 0
+            };
 
-            var parameters = new List<SqlParameter>();
-            var p1 = new SqlParameter("nombre_carrera", nombre);
-            parameters.Add(p1);
-            var p2 = new SqlParameter("codigo_carrera", codigo);
-            parameters.Add(p2);
+            var parameters = new DynamicParameters();
+            parameters.Add("@nombre_carrera", nombre);
+            parameters.Add("@codigo_carrera", codigo);
 
             try
             {
-                mensaje = databaseManager.LookupDatabaseConnectorById(ApiConstants.DatabaseId).
-                    Query<SimpleResult>("dbo.usp_carrera_actualizar_nombre", parameters)[0];
+                m = databaseManager.LookupDatabaseConnectorById(ApiConstants.DatabaseId).
+                    Query<SimpleResult>("dbo.usp_carrera_actualizar_nombre", parameters);
             }
             catch (Exception e)
             {
+                logger.Log(LogLevel.Error, e.Message);
                 throw new Exception("Failed to update carrera.", e);
             }
-
+            if (m.Count >= 1) return m.FirstOrDefault();
             return mensaje;
         }
 
-        public SimpleResult Crear(string nombre, string codigo)
+        public SimpleResult Crear(string nombre, string codigo, string codigo_facultad)
         {
-            SimpleResult mensaje;
+            List<SimpleResult> m;
+            SimpleResult mensaje = new()
+            {
+                result = 0
+            };
 
-            var parameters = new List<SqlParameter>();
-            var p1 = new SqlParameter("nombre_carrera", nombre);
-            parameters.Add(p1);
-            var p2 = new SqlParameter("codigo_carrera", codigo);
-            parameters.Add(p2);
+            var parameters = new DynamicParameters();
+            parameters.Add("@nombre_carrera", nombre);
+            parameters.Add("@codigo_carrera", codigo);
+            parameters.Add("@codigo_facultad", codigo_facultad);
 
             try
             {
-                mensaje = databaseManager.LookupDatabaseConnectorById(ApiConstants.DatabaseId).
-                    Query<SimpleResult>("dbo.usp_carrera_crear", parameters)[0];
+                m = databaseManager.LookupDatabaseConnectorById(ApiConstants.DatabaseId).
+                    Query<SimpleResult>("dbo.usp_carrera_crear", parameters);
             }
             catch (Exception e)
             {
+                logger.Log(LogLevel.Error, e.Message);
                 throw new Exception("Failed to create carrera.", e);
             }
-
+            if (m.Count >= 1) return m.FirstOrDefault();
             return mensaje;
         }
 
         public SimpleResult Eliminar(string codigo, string nuevocodigo)
         {
-            SimpleResult mensaje;
+            List<SimpleResult> m;
+            SimpleResult mensaje = new()
+            {
+                result = 0
+            };
 
-            var parameters = new List<SqlParameter>();
-            var p1 = new SqlParameter("codigo_carrera", codigo);
-            parameters.Add(p1);
+            var parameters = new DynamicParameters();
+            parameters.Add("@codigo_carrera", codigo);
 
             try
             {
-                mensaje = databaseManager.LookupDatabaseConnectorById(ApiConstants.DatabaseId).
-                    Query<SimpleResult>("dbo.usp_carrera_eliminar", parameters)[0];
+                m = databaseManager.LookupDatabaseConnectorById(ApiConstants.DatabaseId).
+                    Query<SimpleResult>("dbo.usp_carrera_eliminar", parameters);
             }
             catch (Exception e)
             {
                 throw new Exception("Failed to delete carrera.", e);
             }
 
+            if (m.Count >= 1) return m.FirstOrDefault();
             return mensaje;
         }
 
         public SimpleResult Recuperar(string codigo)
         {
-            SimpleResult mensaje;
+            List<SimpleResult> m;
+            SimpleResult mensaje = new()
+            {
+                result = 0
+            };
 
-            var parameters = new List<SqlParameter>();
-            var p1 = new SqlParameter("codigo_carrera", codigo);
-            parameters.Add(p1);
+            var parameters = new DynamicParameters();
+            parameters.Add("@codigo_carrera", codigo);
 
             try
             {
-                mensaje = databaseManager.LookupDatabaseConnectorById(ApiConstants.DatabaseId).
-                    Query<SimpleResult>("dbo.usp_carrera_recuperar", parameters)[0];
+                m = databaseManager.LookupDatabaseConnectorById(ApiConstants.DatabaseId).
+                    Query<SimpleResult>("dbo.usp_carrera_recuperar", parameters);
             }
             catch (Exception e)
             {
                 throw new Exception("Failed to recover carrera.", e);
             }
 
+            if (m.Count >= 1) return m.FirstOrDefault();
             return mensaje;
         }
     }

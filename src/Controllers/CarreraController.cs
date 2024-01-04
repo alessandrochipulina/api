@@ -64,11 +64,11 @@ namespace Api.Controllers
 
         [HttpPut]
         [Route("/v1/carrera/crear")]
-        public ActionResult<SimpleResult> Crear(string nombre, string codigo)
+        public ActionResult<SimpleResult> Crear(string nombre, string codigo, string codigo_facultad)
         {
             try
             {
-                var result = this.carreraService.Crear(nombre, codigo);
+                var result = this.carreraService.Crear(nombre, codigo, codigo_facultad);
                 return Ok(result);
             }
             catch (Exception e)

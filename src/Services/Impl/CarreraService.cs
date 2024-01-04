@@ -73,12 +73,12 @@ namespace Api.Services.Impl
             return mensaje;
         }
 
-        public SimpleResult Crear(string nombre, string codigo) 
+        public SimpleResult Crear(string nombre, string codigo, string codigo_facultad) 
         {
             SimpleResult mensaje;
             try
             {
-                mensaje = this.carreraRepository.Crear(nombre, codigo);
+                mensaje = this.carreraRepository.Crear(nombre, codigo, codigo_facultad);
             }
             catch (Exception ex)
             {
