@@ -87,12 +87,12 @@ namespace Api.Services.Impl
             return mensaje;
         }
 
-        public SimpleResult Eliminar(string codigo, string nuevocodigo) 
+        public SimpleResult Eliminar(string codigo) 
         {
             SimpleResult mensaje;
             try
             {
-                mensaje = this.carreraRepository.Eliminar(codigo, nuevocodigo);
+                mensaje = this.carreraRepository.Eliminar(codigo);
             }
             catch (Exception ex)
             {

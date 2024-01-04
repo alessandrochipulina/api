@@ -114,7 +114,7 @@ namespace Api.Repository.Impl
             return mensaje;
         }
 
-        public SimpleResult Eliminar(string codigo, string nuevocodigo)
+        public SimpleResult Eliminar(string codigo)
         {
             List<SimpleResult> m;
             SimpleResult mensaje = new()

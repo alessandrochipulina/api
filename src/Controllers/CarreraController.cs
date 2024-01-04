@@ -79,11 +79,11 @@ namespace Api.Controllers
 
         [HttpDelete]
         [Route("/v1/carrera/eliminar")]
-        public ActionResult<SimpleResult> Eliminar(string codigo, string nuevocodigo)
+        public ActionResult<SimpleResult> Eliminar(string codigo)
         {
             try
             {
-                var result = this.carreraService.Eliminar(codigo, nuevocodigo);
+                var result = this.carreraService.Eliminar(codigo);
                 return Ok(result);
             }
             catch (Exception e)

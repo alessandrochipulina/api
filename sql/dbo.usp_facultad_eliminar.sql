@@ -1,7 +1,7 @@
 ﻿USE [UNIVERSIDAD]
 GO
 
-/****** Objeto: SqlProcedure [dbo].[usp_facultad_eliminar] Fecha del script: 2024-01-03 2:35:01 PM ******/
+/****** Objeto: SqlProcedure [dbo].[usp_facultad_eliminar] Fecha del script: 2024-01-04 3:48:12 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -25,30 +25,22 @@ AS
 		RETURN 0
 	END 
 
-	SELECT @id_new = id FROM FACULTAD WHERE @codigo_facultad_new = codigo_facultad
-	
-	IF @@ROWCOUNT <= 0 BEGIN
-		SELECT * FROM FACULTAD WHERE codigo_facultad = @codigo_facultad
-		IF @@ROWCOUNT >= 0 BEGIN
-			DELETE FROM FACULTAD
-			WHERE codigo_facultad = @codigo_facultad
-
-			SELECT 0 as result
+	SELECT * FROM CARRERA WHERE facultad = @id
+	IF @@ROWCOUNT > 0 BEGIN 
+		SELECT @id_new = id FROM FACULTAD WHERE @codigo_facultad_new = codigo_facultad
+		IF @@ROWCOUNT <= 0 BEGIN 
+			SELECT 400 as result
+			RETURN 0
 		END
-		ELSE BEGIN
-			SELECT 200 as result
-		END
+		
+		UPDATE CARRERA
+		SET facultad = @id_new
+		WHERE facultad = @id
 	END
-	ELSE BEGIN
-		IF @id_new >= 0 BEGIN
-			UPDATE CARRERA
-			SET facultad = @id_new
-			WHERE facultad = @id
 
-			SELECT 0 as result
-		END
-		ELSE BEGIN
-			SELECT 100 as result
-		END
-	END
+	DELETE FROM FACULTAD
+	WHERE codigo_facultad = @codigo_facultad
+
+	SELECT 0 as result
+		
 RETURN 0
